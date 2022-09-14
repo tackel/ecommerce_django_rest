@@ -28,7 +28,7 @@ def user_api_view(request):
         if users_serializer.is_valid():
             users_serializer.save()
             #return Response(users_serializer.data, status = status.HTTP_201_CREATED)
-            return Response({'message':'usuario creado correctamente'}, status=status.HTTP_200_OK)
+            return Response({'message':'usuario creado correctamente'}, status=status.HTTP_201_CREATED)
         return Response(users_serializer.errors)
 
 
