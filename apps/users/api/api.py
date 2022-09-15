@@ -14,7 +14,7 @@ def user_api_view(request):
 
     # list
     if request.method == 'GET':
-        users = User.objects.all().values('id','username','email','password','name')
+        users = User.objects.all().values('id','username','email','password','name') # asi no traes todos los valores
         users_serializer = UserListSerializer(users, many = True)
         # el many = true es para que mande la lista de todos los usuarios
 

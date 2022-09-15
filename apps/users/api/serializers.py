@@ -15,7 +15,15 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
-
+    '''
+    def to_representation(self, instance):
+        return { # de eesta manera podes filtral lo que se muestra en el get y cambiar los nombres a los campos sin modificar modelo ni bd ni nada
+            'id': instance['id'], # uso corchetes por que es un diccionario, si en la vista solo uso .objects.all() debo usar intance.id
+            'nombre_usuario': instance['username'],
+            'correo': instance['email'],
+            'clave': instance['password']
+        }
+    '''
 
     def create(self,validated_data):
         user = User(**validated_data)
@@ -31,36 +39,6 @@ class UserSerializer(serializers.ModelSerializer):
         return update_user
 
 
-# EJEMPLO DE COMO VALIDA UN SERIALIZADOR
-#busca primero si hay una funcion que empiece con validate_ y el nombre del campo a validar. y luego pasa al siguiente campo
-# al final hace la validacion general
-# si uso el serializer basado en un MODELO, django esto lo ahce automaticamente
-'''
-class TestUserSerializer(serializer.Serializer):
-    name = serializers.CharField(max_length = 200)
-    email = serializers.EmailField()
-
-    def validate_name(self, value):
-        if 'pepito' in value:
-            print('no puede existir un usuarioc on este nombre')
-            raise serializers.ValidationError('Error, no puedo exitir este usuario')
-        return value
-    #puedo pasar el context y validar un dato de name y el email
-    def validate_email(self, value):
-        if value == '':
-            raise serializers.ValidationError('tiene que indicar un correo')
-        # para usar el context tenes que enviarlo por parametro en la instancia del serializador en la vista.
-        if self.validate_name(self.context['name']) in value: # de esta forma el erro le figurara al campo email especifico
-            raise serializers.ValidationError('El email no puede contener el nombre')
-        print(valur)
-        return value
-
-    def validate(self, data):
-        if data['name'] in data['email']:
-            raise serializers.ValidationError('el email no puede contener el nombre')
-        print('validacion general')
-        return data
-'''
 
 '''
 class UpdateUserSerializer(serializers.ModelSerializer):
@@ -97,3 +75,44 @@ class UserListSerializer(serializers.ModelSerializer):
         }
 
 
+
+# EJEMPLO DE COMO VALIDA UN SERIALIZADOR
+#busca primero si hay una funcion que empiece con validate_ y el nombre del campo a validar. y luego pasa al siguiente campo
+# al final hace la validacion general
+# si uso el serializer basado en un MODELO, django esto lo ahce automaticamente
+'''
+class TestUserSerializer(serializer.Serializer):
+    name = serializers.CharField(max_length = 200)
+    email = serializers.EmailField()
+
+    def validate_name(self, value):
+        if 'pepito' in value:
+            print('no puede existir un usuarioc on este nombre')
+            raise serializers.ValidationError('Error, no puedo exitir este usuario')
+        return value
+    #puedo pasar el context y validar un dato de name y el email
+    def validate_email(self, value):
+        if value == '':
+            raise serializers.ValidationError('tiene que indicar un correo')
+        # para usar el context tenes que enviarlo por parametro en la instancia del serializador en la vista.
+        if self.validate_name(self.context['name']) in value: # de esta forma el erro le figurara al campo email especifico
+            raise serializers.ValidationError('El email no puede contener el nombre')
+        print(valur)
+        return value
+
+    def validate(self, data):
+        if data['name'] in data['email']:
+            raise serializers.ValidationError('el email no puede contener el nombre')
+        print('validacion general')
+        return data
+
+    def create(self, validated_data): # entra a esta funcion cuando pones el .save( )
+        return User.objects.create(**validated_data) #en este caso seria User, pero en reliada busca el model que se paso en la clase meta model.object.create
+
+    # al llamar al metodo PUT para actualizar el .save no llama al metodo create sino al update
+    def update(self, intance, validated_data):
+        instance.name = validated_data.get('name',instace.name) # esto lo hace por cada campo que hay en el objeto
+        instance.save()
+        return intance
+
+'''

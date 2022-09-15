@@ -1,8 +1,10 @@
 from django.db import models
-
 from simple_history.models import HistoricalRecords
 
+
+
 # Create your models here.
+# Este modelo es para usarlo en las demas apps
 class BaseModel(models.Model):
     """Model definition for BaseModel."""
 
