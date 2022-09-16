@@ -2,6 +2,8 @@ from apps.products.models import MeasureUnit,CategoryProduct,Indicator
 
 from rest_framework import serializers
 
+
+#  campos generales que se ingresan por el admin, no hacemos un crud ya que son datos internos
 class MeasureUnitSerializer(serializers.ModelSerializer):
 
     class Meta:

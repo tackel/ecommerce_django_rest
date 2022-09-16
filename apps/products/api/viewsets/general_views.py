@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-#from apps.base.api import GeneralListApiView
+from apps.base.api import GeneralListApiView
 from apps.products.models import MeasureUnit, CategoryProduct
 from apps.products.api.serializers.general_serializers import (
     MeasureUnitSerializer, IndicatorSerializer, CategoryProductSerializer,
@@ -163,3 +163,16 @@ class CategoryProductViewSet(viewsets.GenericViewSet):
             self.get_object().get().delete()       
             return Response({'message':'Categoría eliminada correctamente!'}, status=status.HTTP_200_OK)       
         return Response({'message':'', 'error':'Categoría no encontrada!'}, status=status.HTTP_400_BAD_REQUEST)
+
+'''
+# todos heredan de generallistapiview para ahorrar el codigo y no ponerlo en todas las clases
+class MeasureUnitViewSet(GeneralListApiView):
+    serializer_class = MeasureUnitSerializer
+
+class IndicatorViewSet(GeneralListApiView):
+    serializer_class = IndicatorSerializer
+
+class CategoryProductViewSet(GeneralListApiView):
+    serializer_class = CategoryProductSerializer
+
+'''
