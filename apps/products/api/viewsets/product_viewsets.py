@@ -10,37 +10,33 @@ from apps.products.api.serializers.product_serializers import (
 
 class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
-    parser_classes = (JSONParser, MultiPartParser, )
+    queryset = ProductSerializer.Meta.model.objects.filter(state = True)
+    #parser_classes = (JSONParser, MultiPartParser, )
 
     def get_queryset(self, pk=None):
         if pk is None:
             return self.get_serializer().Meta.model.objects.filter(state=True)
         return self.get_serializer().Meta.model.objects.filter(id=pk, state=True).first()
-
+    
     def list(self, request):
         product_serializer = self.get_serializer(self.get_queryset(), many=True)
+        '''
         data = {
             "total": self.get_queryset().count(),
             "totalNotFiltered": self.get_queryset().count(),
             "rows": product_serializer.data
         }
-        return Response(data, status=status.HTTP_200_OK)
-
+        '''
+        return Response(product_serializer.data, status=status.HTTP_200_OK)
+    
     def create(self, request):
         # send information to serializer 
-        data = validate_files(request.data,'image')
-        serializer = self.serializer_class(data=data)     
+        #data = validate_files(request.data,'image')
+        serializer = self.serializer_class(data=request.data)     
         if serializer.is_valid():
             serializer.save()
             return Response({'message': 'Producto creado correctamente!'}, status=status.HTTP_201_CREATED)
         return Response({'message':'', 'error':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-
-    def retrieve(self, request, pk=None):
-        product = self.get_queryset(pk)
-        if product:
-            product_serializer = ProductRetrieveSerializer(product)
-            return Response(product_serializer.data, status=status.HTTP_200_OK)
-        return Response({'error':'No existe un Producto con estos datos!'}, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk=None):
         if self.get_queryset(pk):
@@ -56,7 +52,19 @@ class ProductViewSet(viewsets.ModelViewSet):
         # Eliminacon logica, el producto sigue existiendo pero se cambia el estado
         product = self.get_queryset().filter(id=pk).first() # get instance        
         if product:
+            print(product)
             product.state = False
             product.save()
-            return Response({'message':'Producto eliminado correctamente!'}, status=status.HTTP_200_OK)
+            return Response({'message':f'Producto {product} fue eliminado correctamente!'}, status=status.HTTP_200_OK)
         return Response({'error':'No existe un Producto con estos datos!'}, status=status.HTTP_400_BAD_REQUEST)
+    '''
+    def retrieve(self, request, pk=None):
+        product = self.get_queryset(pk)
+        if product:
+            product_serializer = ProductRetrieveSerializer(product)
+            return Response(product_serializer.data, status=status.HTTP_200_OK)
+        return Response({'error':'No existe un Producto con estos datos!'}, status=status.HTTP_400_BAD_REQUEST)
+
+    
+    
+    '''

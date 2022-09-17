@@ -10,3 +10,4 @@ router.register(r'indicators',IndicatorViewSet,basename = 'indicators')
 router.register(r'category-products',CategoryProductViewSet,basename = 'category_products')
 
 urlpatterns = router.urls
+

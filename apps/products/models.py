@@ -73,7 +73,7 @@ class Product(BaseModel):
     def __str__(self):
         """Unicode representation of Product."""
         return self.name
-
+    '''
     @property
     def stock(self):
         from django.db.models import Sum
@@ -85,3 +85,4 @@ class Product(BaseModel):
         ).aggregate(Sum('quantity'))
 
         return expenses
+    '''
