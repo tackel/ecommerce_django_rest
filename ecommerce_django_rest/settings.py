@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -51,6 +52,11 @@ THIRD_APPS = [
     'rest_framework',
     'simple_history',
     'drf_yasg',
+    'corsheaders',
+    #'automatic_crud',
+    'rest_framework.authtoken', # viene ya incluido en drf
+    'rest_framework_simplejwt',  
+    #'rest_framework_simplejwt.token_blacklist',  
 
 ]
 
@@ -59,10 +65,31 @@ INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
 SWAGGER_SETTINGS = {
     'DOC_EXPANSION': 'none'
 }
+# Tiempo para que caduque el token si lo hacemoso de forma manual, si el jwt
+#TOKEN_EXPIRED_AFTER_SECONDS = 90000
+
+'''
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'apps.users.authentication_mix.Authentication', #asi usamos la autenticacion por defecto que hicimos nosotros
+    ],
+'''
+REST_FRAMEWORK = {
+  
+    
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication', 
+    ],
+    'DEFAULT_PERMISSION_CLASSES': ( # permiso global
+        'rest_framework.permissions.IsAuthenticated',
+    )
+    
+}
+    
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -134,6 +161,18 @@ USE_I18N = True
 USE_TZ = True
 
 AUTH_USER_MODEL = 'users.User'
+
+
+CORS_ALLOWED_ORIGIN =[
+    "http://localhost:8000",
+    "http://localhost:3000"
+]
+
+# En ocaciones tambien es necesario agregarlo asi al cors
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:8000",
+    "http://localhost:3000"
+]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/

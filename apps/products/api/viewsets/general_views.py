@@ -11,6 +11,9 @@ from apps.products.api.serializers.general_serializers import (
 )
 
 class MeasureUnitViewSet(viewsets.GenericViewSet):
+    """
+    Api de medida disponibles
+    """
     model = MeasureUnit
     serializer_class = MeasureUnitSerializer
 
@@ -27,6 +30,12 @@ class MeasureUnitViewSet(viewsets.GenericViewSet):
         return Response(data.data)
 
     def list(self, request):
+        """
+        Lista de unidades de medida
+
+
+        Mas info aca debajo.
+        """
         data = self.get_queryset()
         data = self.get_serializer(data, many=True)
         data = {

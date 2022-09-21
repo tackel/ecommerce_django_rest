@@ -7,7 +7,8 @@ from apps.products.api.serializers.general_serializers import (
 
 class ProductSerializer(serializers.ModelSerializer):
     
-    class Meta:
+    class Meta: # Swagger toda de la clase meta los campos que muestra.
+
         model = Product
         exclude = ('state','created_date','modified_date','deleted_date')
 
@@ -35,6 +36,8 @@ class ProductSerializer(serializers.ModelSerializer):
         return data
 
     def to_representation(self,instance):
+        # el serializador se puede usar para dos cosas a la ves, crear y retornar. 
+        # para retornar si se toma el to_representation, pero para crear se toma lo que tengas en el field de la clase Meta. Puede que no coincidan.
         return {
             'id': instance.id,
             #'stock': instance.stock.get('quantity__sum') if instance.stock.get('quantity__sum') is not None else 0,

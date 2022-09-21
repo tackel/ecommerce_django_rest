@@ -1,0 +1,7 @@
+{
+  "editor.fontSize": 14,
+  "editor.cursorStyle": "block-outline",
+  "editor.cursorBlinking": "blink",
+  "editor.cursorSmoothCaretAnimation": false,
+  "editor.columnSelection": false
+}
