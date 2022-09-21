@@ -41,7 +41,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 
-'''
+
 class UpdateUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -49,7 +49,7 @@ class UpdateUserSerializer(serializers.ModelSerializer):
 
 
 
-
+'''
 
 class PasswordSerializer(serializers.Serializer):
     password = serializers.CharField(max_length=128, min_length=6, write_only=True)
@@ -72,8 +72,7 @@ class UserListSerializer(serializers.ModelSerializer):
             'id': instance['id'],
             'name': instance['name'],
             'username': instance['username'],
-            'email': instance['email'],
-            'password': instance['password']
+            'email': instance['email'] 
         }
 
 

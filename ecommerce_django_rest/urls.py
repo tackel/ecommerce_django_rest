@@ -54,7 +54,7 @@ urlpatterns = [
     path('login/',Login.as_view(), name = 'login'),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('users/',include('apps.users.api.url')),
+    path('users/',include('apps.users.api.routers')),
     path('products/',include('apps.products.api.routers')),
 
     #path('expense/',include('apps.expense_manager.api.routers')),

@@ -38,6 +38,16 @@ class Login(TokenObtainPairView):
             return Response({'error': 'Contraseña o nombre de usuario incorrectos'}, status=status.HTTP_400_BAD_REQUEST)
         return Response({'error': 'Contraseña o nombre de usuario incorrectos'}, status=status.HTTP_400_BAD_REQUEST)
 
+
+class Logout(GenericAPIView):
+    def post(self, request, *args, **kwargs):
+        user = User.objects.filter(id=request.data.get('user', 0)) # el id 0 nunca existira
+        if user.exists():
+            RefreshToken.for_user(user.first())#refresh refresca el token pero no elimina el aterior, este sigo funcionando 
+            return Response({'message': 'Sesión cerrada correctamente.'}, status=status.HTTP_200_OK)
+        return Response({'error': 'No existe este usuario.'}, status=status.HTTP_400_BAD_REQUEST)
+
+
 '''
 # ya no funciona con la interfaz de django, usar posman u otro
 class Login(ObtainAuthToken):
@@ -86,15 +96,5 @@ class Login(ObtainAuthToken):
           
         return Response({'mensaje':'Hola desde el response'}, status=status.HTTP_200_OK)
 '''
-class Logout(GenericAPIView):
-    def post(self, request, *args, **kwargs):
-        user = User.objects.filter(id=request.data.get('user', 0))
-        if user.exists():
-            RefreshToken.for_user(user.first())
-            return Response({'message': 'Sesión cerrada correctamente.'}, status=status.HTTP_200_OK)
-        return Response({'error': 'No existe este usuario.'}, status=status.HTTP_400_BAD_REQUEST)
-
-
-
 
 
