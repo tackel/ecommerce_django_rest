@@ -35,6 +35,7 @@ class ProductSerializer(serializers.ModelSerializer):
         
         return data
 
+
     def to_representation(self,instance):
         # el serializador se puede usar para dos cosas a la ves, crear y retornar. 
         # para retornar si se toma el to_representation, pero para crear se toma lo que tengas en el field de la clase Meta. Puede que no coincidan.

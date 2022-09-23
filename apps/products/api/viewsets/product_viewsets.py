@@ -14,7 +14,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
 
     #queryset = ProductSerializer.Meta.model.objects.filter(state = True)
-    #parser_classes = (JSONParser, MultiPartParser, )
+    #parser_classes = (JSONParser, MultiPartParser, )# el parcer permite el envio de la imagen hay tres tipos.ModelViewSet ya lo hereda automaticamente
 
     def get_queryset(self, pk=None):
         if pk is None:
@@ -23,18 +23,18 @@ class ProductViewSet(viewsets.ModelViewSet):
     
     def list(self, request):
         product_serializer = self.get_serializer(self.get_queryset(), many=True)
-        '''
+        
         data = {
             "total": self.get_queryset().count(),
             "totalNotFiltered": self.get_queryset().count(),
             "rows": product_serializer.data
         }
-        '''
+    
         return Response(product_serializer.data, status=status.HTTP_200_OK)
     
     def create(self, request):
         # send information to serializer 
-        #data = validate_files(request.data,'image')
+        data = validate_files(request.data,'image')
         serializer = self.serializer_class(data=request.data)     
         if serializer.is_valid():
             serializer.save()
@@ -60,14 +60,10 @@ class ProductViewSet(viewsets.ModelViewSet):
             product.save()
             return Response({'message':f'Producto {product} fue eliminado correctamente!'}, status=status.HTTP_200_OK)
         return Response({'error':'No existe un Producto con estos datos!'}, status=status.HTTP_400_BAD_REQUEST)
-    '''
+    
     def retrieve(self, request, pk=None):
         product = self.get_queryset(pk)
         if product:
             product_serializer = ProductRetrieveSerializer(product)
             return Response(product_serializer.data, status=status.HTTP_200_OK)
         return Response({'error':'No existe un Producto con estos datos!'}, status=status.HTTP_400_BAD_REQUEST)
-
-    
-    
-    '''

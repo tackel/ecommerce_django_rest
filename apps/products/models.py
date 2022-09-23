@@ -64,6 +64,7 @@ class Product(BaseModel):
     measure_unit = models.ForeignKey(MeasureUnit, on_delete=models.CASCADE, verbose_name='Unidad de Medida', null=True)
     category_product = models.ForeignKey(CategoryProduct, on_delete=models.CASCADE, verbose_name='Categoria de Producto', null=True)
     
+    
     class Meta:
         """Meta definition for Product."""
 

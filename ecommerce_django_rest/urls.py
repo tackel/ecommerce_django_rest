@@ -56,9 +56,12 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('users/',include('apps.users.api.routers')),
     path('products/',include('apps.products.api.routers')),
-
-    #path('expense/',include('apps.expense_manager.api.routers')),
+    path('expense/',include('apps.expense_manager.api.routers')),
 ]
 
-
+urlpatterns += [
+    re_path(r'^media/(?P<path>.*)$', serve, {
+        'document_root': settings.MEDIA_ROOT,
+    }),
+]
 

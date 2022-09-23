@@ -40,6 +40,7 @@ class Login(TokenObtainPairView):
 
 
 class Logout(GenericAPIView):
+    serializer_class = CustomTokenObtainPairSerializer
     def post(self, request, *args, **kwargs):
         user = User.objects.filter(id=request.data.get('user', 0)) # el id 0 nunca existira
         if user.exists():
