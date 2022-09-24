@@ -21,10 +21,10 @@ class ExpenseViewSet(viewsets.GenericViewSet):
 
     @action(methods=['get'], detail=False)
     def search_supplier(self, request): # buscar_proveedor
-        ruc_or_business_name = request.query_params.get('ruc_or_business_name', '')
+        cuit_or_business_name = request.query_params.get('cuit_or_business_name', '')
         supplier = Supplier.objects.filter(
-            Q(ruc__iexact=ruc_or_business_name)|
-            Q(business_name__iexact=ruc_or_business_name)
+            Q(ruc__iexact=cuit_or_business_name)|
+            Q(business_name__iexact=cuit_or_business_name)
         ).first()
         if supplier:
             supplier_serializer = SupplierSerializer(supplier)
@@ -63,12 +63,12 @@ class ExpenseViewSet(viewsets.GenericViewSet):
         data = ProductSerializer(data, many=True).data
         return Response(data)
 
-    def format_data(self, data):
+    def format_data(self, data):# para obtener el id de usuario que esta haciendo la consulta
         JWT_authenticator = JWTAuthentication()
         # decode token
         user, _ = JWT_authenticator.authenticate(self.request)
-        data['user'] = user.id
-        data['date'] = format_date(data['date'])
+        data['user'] = user.id # otento id user
+        data['date'] = format_date(data['date']) # formateo la fecha, format_date esta en utils
         return data
 
     def create(self, request):

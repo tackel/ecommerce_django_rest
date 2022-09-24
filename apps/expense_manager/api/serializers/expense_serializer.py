@@ -10,7 +10,7 @@ class SupplierRegisterSerializer(serializers.ModelSerializer):
 
     def save(self):
         new_supplier = Supplier.objects.create(**self.validated_data)
-        return new_supplier.to_dict()
+        return new_supplier.to_dict() # to dict es un metodo que esta dentro del model Supplier
 
 class ExpenseSerializer(serializers.ModelSerializer):
 
