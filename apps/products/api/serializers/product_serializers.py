@@ -41,7 +41,7 @@ class ProductSerializer(serializers.ModelSerializer):
         # para retornar si se toma el to_representation, pero para crear se toma lo que tengas en el field de la clase Meta. Puede que no coincidan.
         return {
             'id': instance.id,
-            #'stock': instance.stock.get('quantity__sum') if instance.stock.get('quantity__sum') is not None else 0,
+            'stock': instance.stock.get('quantity__sum') if instance.stock.get('quantity__sum') is not None else 0,
             'name': instance.name,            
             'description': instance.description,
             'image': instance.image.url if instance.image != '' else '',

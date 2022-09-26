@@ -54,7 +54,7 @@ THIRD_APPS = [
     'simple_history',
     'drf_yasg',
     'corsheaders',
-    #'automatic_crud',
+    'automatic_crud',
     'rest_framework.authtoken', # viene ya incluido en drf
     'rest_framework_simplejwt',  
     'rest_framework_simplejwt.token_blacklist',  

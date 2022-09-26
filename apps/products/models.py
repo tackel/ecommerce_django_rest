@@ -74,11 +74,11 @@ class Product(BaseModel):
     def __str__(self):
         """Unicode representation of Product."""
         return self.name
-    '''
-    @property
+    
+    @property # con el docrador puedo tratar al a funcion como un campo del model producto
     def stock(self):
         from django.db.models import Sum
-        from apps.expense_manager.models import Expense
+        from apps.expense_manager.models import Expense # lo importo aca para evitar el error importacion circular, por que en expense esta importado producto
 
         expenses = Expense.objects.filter(
             product=self,
@@ -86,4 +86,4 @@ class Product(BaseModel):
         ).aggregate(Sum('quantity'))
 
         return expenses
-    '''
+    
